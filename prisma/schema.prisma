@@ -6,3 +6,151 @@ datasource db {
   provider = "mysql"
   url      = env("DATABASE_URL")
 }
+
+model Staff {
+  id        String    @id @default(uuid())
+  companyId String    @map("company_id")
+  name      String
+  email     String
+  password  String
+  createdAt DateTime  @default(now()) @map("created_at")
+  updatedAt DateTime  @updatedAt @map("updated_at")
+  deletedAt DateTime? @map("deleted_at")
+
+  company  Company    @relation(fields: [companyId], references: [id])
+  order    Order[]
+  supplier Supplier[]
+
+  @@map("staff")
+}
+
+model Supplier {
+  id          String    @id @default(uuid())
+  staffId     String    @map("staff_id")
+  warehouseId String    @map("warehouse_id")
+  createdAt   DateTime  @default(now()) @map("created_at")
+  updatedAt   DateTime  @updatedAt @map("updated_at")
+  deletedAt   DateTime? @map("deleted_at")
+
+  staff     Staff     @relation(fields: [staffId], references: [id])
+  warehouse Warehouse @relation(fields: [warehouseId], references: [id])
+
+  @@map("supplier")
+}
+
+model Warehouse {
+  id        String    @id @default(uuid())
+  name      String
+  address   String
+  createdAt DateTime  @default(now()) @map("created_at")
+  updatedAt DateTime  @updatedAt @map("updated_at")
+  deletedAt DateTime? @map("deleted_at")
+
+  supplier Supplier[]
+  product  Product[]
+
+  @@map("warehouse")
+}
+
+model Product {
+  id          String    @id @default(uuid())
+  categoryId  String    @map("category_id")
+  warehouseId String    @map("warehouse_id")
+  name        String
+  price       Int
+  stock       Int
+  createdAt   DateTime  @default(now()) @map("created_at")
+  updatedAt   DateTime  @updatedAt @map("updated_at")
+  deletedAt   DateTime? @map("deleted_at")
+
+  warehouse    Warehouse      @relation(fields: [warehouseId], references: [id])
+  category     Category       @relation(fields: [categoryId], references: [id])
+  orderDetails OrderDetails[]
+
+  @@map("product")
+}
+
+model Category {
+  id        String   @id @default(uuid())
+  name      String
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  product Product[]
+
+  @@map("category")
+}
+
+model Company {
+  id        String    @id @default(uuid())
+  name      String
+  createdAt DateTime  @default(now()) @map("created_at")
+  updatedAt DateTime  @updatedAt @map("updated_at")
+  deletedAt DateTime? @map("deleted_at")
+
+  staff        Staff[]
+  joiningStore JoiningStore[]
+
+  @@map("company")
+}
+
+model JoiningStore {
+  id        String    @id @default(uuid())
+  companyId String
+  name      String
+  address   String
+  createdAt DateTime  @default(now()) @map("created_at")
+  updatedAt DateTime  @updatedAt @map("updated_at")
+  deletedAt DateTime? @map("deleted_at")
+
+  company      Company        @relation(fields: [companyId], references: [id])
+  orderHistory OrderHistory[]
+
+  @@map("joining_store")
+}
+
+model Order {
+  id             String    @id @default(uuid())
+  staffId        String    @map("staff_id")
+  joiningStoreId String    @map("joining_store_id")
+  orderDetailsId String    @map("order_details_id")
+  createdAt      DateTime  @default(now()) @map("created_at")
+  updatedAt      DateTime  @updatedAt @map("updated_at")
+  deletedAt      DateTime? @map("deleted_at")
+
+  staff        Staff          @relation(fields: [staffId], references: [id])
+  orderDetails OrderDetails[]
+  orderHistory OrderHistory[]
+
+  @@map("order")
+}
+
+model OrderDetails {
+  id              String    @id @default(uuid())
+  orderId         String    @map("order_id")
+  productId       String    @map("product_id")
+  productQuantity Int
+  productPrice    Int
+  createdAt       DateTime  @default(now()) @map("created_at")
+  updatedAt       DateTime  @updatedAt @map("updated_at")
+  deletedAt       DateTime? @map("deleted_at")
+
+  order   Order   @relation(fields: [orderId], references: [id])
+  product Product @relation(fields: [productId], references: [id])
+
+  @@map("order_details")
+}
+
+model OrderHistory {
+  id             String    @id @default(uuid())
+  joiningStoreId String    @map("joining_store_id")
+  orderId        String    @map("order_id")
+  createdAt      DateTime  @default(now()) @map("created_at")
+  updatedAt      DateTime  @updatedAt @map("updated_at")
+  deletedAt      DateTime? @map("deleted_at")
+
+  joiningStore JoiningStore @relation(fields: [joiningStoreId], references: [id])
+  order        Order        @relation(fields: [orderId], references: [id])
+
+  @@map("order_history")
+}
