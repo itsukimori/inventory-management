@@ -1,5 +1,6 @@
 import {  NextRequest, NextResponse } from "next/server";
 import { prisma } from "@/app/lib/prisma";
+import bcrypt from 'bcrypt';
 
 export async function createStaff(req: NextRequest, res: NextResponse) {
     try {
@@ -7,7 +8,7 @@ export async function createStaff(req: NextRequest, res: NextResponse) {
             data: {
                 name: "スタッフ",
                 email: "john.doe@example.com",
-                password: "password",
+                password: await bcrypt.hash('password', 10),
             }
         })
 

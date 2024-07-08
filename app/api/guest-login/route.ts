@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from 'next/server';
 import { prisma } from '@/app/lib/prisma';
 import jwt from 'jsonwebtoken';
 import { serialize } from 'cookie';
+import bcrypt from 'bcrypt';
 
 export async function POST(req: NextRequest) {
 
@@ -14,7 +15,7 @@ export async function POST(req: NextRequest) {
         /**
          * Bcryptでハッシュ化する予定
          */
-        password: 'password',
+        password: await bcrypt.hash('password', 10),
         },
     });
 
