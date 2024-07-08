@@ -12,9 +12,6 @@ export async function POST(req: NextRequest) {
         data: {
         name: `ゲスト${guestCount + 1}`,
         email: `guest${guestCount + 1}@example.com`,
-        /**
-         * Bcryptでハッシュ化する予定
-         */
         password: await bcrypt.hash('password', 10),
         },
     });
