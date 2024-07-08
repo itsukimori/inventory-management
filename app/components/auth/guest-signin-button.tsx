@@ -1,5 +1,6 @@
 'use client'
 import { useRouter } from 'next/navigation';
+import { Button } from '@mantine/core';
 
 export default function GuestLoginButton() {
     const router = useRouter();
@@ -15,8 +16,15 @@ export default function GuestLoginButton() {
         }
     }
     return (
-        <div>
-            <button onClick={handleGuestLogin}>ゲストとしてログイン</button>
-        </div>
+        <Button
+            onClick={handleGuestLogin}
+            type="submit"
+            variant="default"
+            color="gray"
+            radius="md"
+            size="md"
+        >
+            ゲストとしてログイン
+        </Button>
     )
 }

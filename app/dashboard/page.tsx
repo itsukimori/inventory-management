@@ -4,6 +4,8 @@ import { getCookieValue } from "@/app/lib/session";
 import jwt from 'jsonwebtoken';
 import { auth } from "@/auth";
 import GuestSignOut from "@/app/components/auth/guest-signout-button";
+import MainLayout from "@/app/components/layouts/main-layout";
+import { Group, Avatar, Text } from "@mantine/core";
 
 type DecodedValue = {
     name?: string;
@@ -11,7 +13,6 @@ type DecodedValue = {
 }
 
 export default async function Dashboard() {
-    
     const cookieName = 'guest-session';
     const cookieValue = await getCookieValue(cookieName);
     const session = await auth();
@@ -27,28 +28,44 @@ export default async function Dashboard() {
     }
 
     return (
-        <main className="">
+        <MainLayout>
             <div>Dashboard</div>
-            <div>
-                {
-                    session ?
-                    <>
-                        <p>
-                            {`${session.user?.name}, ${session.user?.email}`}
-                        </p>
-                        
+            {
+                session ?
+                <>
+                   <Group>
+                        <Avatar
+                            src={session.user?.image!}
+                            alt={session.user?.name!}
+                            radius="xl"
+                        />
+                        <div>
+                            <Text fz="sm">{session.user?.name}</Text>
+                            <Text fz="xs" c="dimmed">
+                                {session.user?.email}
+                            </Text>
+                        </div>
                         <SignOut />
-                    </>
-                     :
-                    <>
-                        <p>
-                            {`${decodedValue?.name}, ${decodedValue?.email}`}
-                        </p>
+                    </Group>
+                </>
+                :
+                <>
+                    <Group>
+                        <Avatar
+                            src="https://raw.githubusercontent.com/mantinedev/mantine/master/.demo/avatars/avatar-2.png"
+                            alt="Jacob Warnhalter"
+                            radius="xl"
+                        />
+                        <div>
+                            <Text fz="sm">{decodedValue?.name}</Text>
+                            <Text fz="xs" c="dimmed">
+                                {decodedValue?.email}
+                            </Text>
+                        </div>
                         <GuestSignOut />
-                    </>
-                }   
-            </div>
-            
-        </main>
+                    </Group>
+                </>
+            }
+        </MainLayout>
     );
 }

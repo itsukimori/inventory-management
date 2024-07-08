@@ -1,4 +1,6 @@
 import { signIn } from "@/auth";
+import { Button } from '@mantine/core';
+import { IconBrandGoogleFilled, IconBrandGithubFilled } from '@tabler/icons-react';
 
 export default function SignIn() {
   return (
@@ -8,7 +10,20 @@ export default function SignIn() {
             await signIn();
         }}
     >
-      <button type="submit">Google または GitHub でログイン</button>
+      <Button
+        type="submit"
+        variant="default"
+        color="gray"
+        radius="md"
+        size="md"
+        >
+          <IconBrandGoogleFilled />
+          Google 
+          ,
+          <IconBrandGithubFilled />
+          GitHub 
+          でログイン
+      </Button>
     </form>
   )
 }
