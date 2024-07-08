@@ -8,7 +8,7 @@ export default function SignIn() {
             await signIn();
         }}
     >
-        <button type="submit">Google または GitHub でログイン</button>
+      <button type="submit">Google または GitHub でログイン</button>
     </form>
   )
 }

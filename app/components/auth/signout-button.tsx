@@ -6,7 +6,7 @@ export default function SignOut() {
         "use server";
         await signOut();
     }}>
-        <button type="submit">Sign out</button>
+      <button type="submit">ログアウト</button>
     </form>
   )
 }
