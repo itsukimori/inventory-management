@@ -1,9 +1,8 @@
 'use client'
 import { useState, useEffect } from 'react';
 import { useRouter, usePathname } from 'next/navigation';
-import { Group, Text } from '@mantine/core';
+import { Group } from '@mantine/core';
 import {
-  IconBellRinging,
   IconFingerprint,
   IconKey,
   IconSettings,
@@ -12,13 +11,14 @@ import {
   IconReceipt2,
   IconSwitchHorizontal,
   IconLogout,
+  IconUser
 } from '@tabler/icons-react';
 import classes from '@/app/mantine-css-modules/NavBar.module.css';
 import React from 'react';
 
 
 const data = [
-  { link: '/dashboard', label: 'マイページ', icon: IconBellRinging },
+  { link: '/dashboard', label: 'マイページ', icon: IconUser },
   { link: '/dashboard/sample', label: 'Billing', icon: IconReceipt2 },
   { link: '', label: 'Security', icon: IconFingerprint },
   { link: '', label: 'SSH Keys', icon: IconKey },

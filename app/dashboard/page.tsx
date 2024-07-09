@@ -1,11 +1,13 @@
-import SignOut from "@/app/components/auth/signout-button";
 import { redirect } from "next/navigation";
 import { getCookieValue } from "@/app/lib/session";
 import jwt from 'jsonwebtoken';
 import { auth } from "@/auth";
-import GuestSignOut from "@/app/components/auth/guest-signout-button";
 import MainLayout from "@/app/components/layouts/main-layout";
-import { Group, Avatar, Text } from "@mantine/core";
+import { UserInfo } from "@/app/components/ui/user-info/UserInfo";
+import { CardGradient } from "@/app/components/ui/card-gradient/CardGradient";
+import { Flex, rem, Paper, Text } from "@mantine/core";
+import { IconBuildingStore, IconBuildingWarehouse } from "@tabler/icons-react";
+import { TableScrollArea } from "@/app/components/ui/table-scroll-area/TableScrollArea";
 
 type DecodedValue = {
     name?: string;
@@ -29,43 +31,47 @@ export default async function Dashboard() {
 
     return (
         <MainLayout>
-            <div>Dashboard</div>
             {
                 session ?
                 <>
-                   <Group>
-                        <Avatar
-                            src={session.user?.image!}
-                            alt={session.user?.name!}
-                            radius="xl"
-                        />
-                        <div>
-                            <Text fz="sm">{session.user?.name}</Text>
-                            <Text fz="xs" c="dimmed">
-                                {session.user?.email}
-                            </Text>
-                        </div>
-                        <SignOut />
-                    </Group>
+                    <UserInfo name={session.user?.name} email={session.user?.email} imageUrl={session.user?.image} />
                 </>
                 :
                 <>
-                    <Group>
-                        <Avatar
-                            src="https://raw.githubusercontent.com/mantinedev/mantine/master/.demo/avatars/avatar-2.png"
-                            alt="Jacob Warnhalter"
-                            radius="xl"
-                        />
-                        <div>
-                            <Text fz="sm">{decodedValue?.name}</Text>
-                            <Text fz="xs" c="dimmed">
-                                {decodedValue?.email}
-                            </Text>
-                        </div>
-                        <GuestSignOut />
-                    </Group>
+                    <UserInfo 
+                        name={decodedValue?.name}
+                        email={decodedValue?.email}
+                        imageUrl={"https://raw.githubusercontent.com/mantinedev/mantine/master/.demo/avatars/avatar-2.png"}
+                    />
                 </>
             }
+            <Flex
+                direction={{ base: 'column', sm: 'row' }}
+                gap={{ base: 'sm', sm: 'lg' }}
+                justify="flex-start"
+                mt='lg'
+            >
+                <CardGradient 
+                    title="製品を倉庫に追加"
+                    description="製品を倉庫に追加するには新規作成ボタンを押下してください。"
+                    icon={<IconBuildingWarehouse style={{ width: rem(28), height: rem(28) }} stroke={1.5} />}
+                    color1="pink"
+                    color2="orange"
+                    buttonText="新規作成"
+                />
+                <CardGradient 
+                    title="店舗に製品を供給"
+                    description="店舗に製品を供給するには店舗供給ボタンを押下してください。"
+                    icon={<IconBuildingStore style={{ width: rem(28), height: rem(28) }} stroke={1.5} />}
+                    color1="blue"
+                    color2="green"
+                    buttonText="店舗供給"
+                />
+            </Flex>
+            <Paper withBorder shadow="xl" radius="sm" mt="xl">
+                <Text m="md">過去の供給履歴</Text>
+                <TableScrollArea />
+            </Paper>
         </MainLayout>
     );
 }
