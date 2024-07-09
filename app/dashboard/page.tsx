@@ -52,24 +52,24 @@ export default async function Dashboard() {
                 mt='lg'
             >
                 <CardGradient 
-                    title="製品を倉庫に追加"
-                    description="製品を倉庫に追加するには新規作成ボタンを押下してください。"
+                    title="製品を倉庫に供給"
+                    description="製品を倉庫に供給するには新規作成ボタンを押下してください。"
                     icon={<IconBuildingWarehouse style={{ width: rem(28), height: rem(28) }} stroke={1.5} />}
                     color1="pink"
                     color2="orange"
                     buttonText="新規作成"
                 />
                 <CardGradient 
-                    title="店舗に製品を供給"
-                    description="店舗に製品を供給するには店舗供給ボタンを押下してください。"
+                    title="加盟店舗に製品を提供"
+                    description="加盟店舗に製品を提供するには店舗供給ボタンを押下してください。"
                     icon={<IconBuildingStore style={{ width: rem(28), height: rem(28) }} stroke={1.5} />}
                     color1="blue"
                     color2="green"
-                    buttonText="店舗供給"
+                    buttonText="店舗提供"
                 />
             </Flex>
             <Paper withBorder shadow="xl" radius="sm" mt="xl">
-                <Text m="md">過去の供給履歴</Text>
+                <Text m="md">店舗提供履歴</Text>
                 <TableScrollArea />
             </Paper>
         </MainLayout>
