@@ -1,7 +1,7 @@
 'use client'
 import { useState, useEffect } from 'react';
 import { useRouter, usePathname } from 'next/navigation';
-import { Group, Code } from '@mantine/core';
+import { Group, Text } from '@mantine/core';
 import {
   IconBellRinging,
   IconFingerprint,
@@ -67,9 +67,7 @@ export function Navbar() {
     return (
         <nav className={classes.navbar}>
             <div className={classes.navbarMain}>
-                <Group className={classes.header} justify="space-between">
-                    <Code fw={700}>v3.1.2</Code>
-                </Group>
+                <Group className={classes.header} justify="space-between"></Group>
                     {links}
             </div>
             <div className={classes.footer}>
