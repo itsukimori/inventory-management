@@ -6,13 +6,16 @@ import bcrypt from 'bcrypt';
 
 export async function POST(req: NextRequest) {
 
-    const guestCount: number = await prisma.staff.count();
+    let guestCount: number = await prisma.staff.count();
+    if (guestCount == 0) {
+        guestCount += 1;
+    }
 
     const guest = await prisma.staff.create({
         data: {
-        name: `ゲスト${guestCount + 1}`,
-        email: `guest${guestCount + 1}@example.com`,
-        password: await bcrypt.hash('password', 10),
+            name: `ゲスト${guestCount + 1}`,
+            email: `guest${guestCount + 1}@example.com`,
+            password: await bcrypt.hash('password', 10),
         },
     });
 

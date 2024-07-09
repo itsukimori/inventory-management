@@ -1,4 +1,5 @@
 import { GuestSignOut } from "@/auth";
+import { IconLogout } from "@tabler/icons-react";
 
 export default function GuestSignOutButton() {
     return (
@@ -6,7 +7,9 @@ export default function GuestSignOutButton() {
             "use server";
             await GuestSignOut();
         }}>
-            <button type="submit">ログアウト</button>
+            <button type="submit">
+                <IconLogout stroke={1.5} />
+            </button>
         </form>
     )
 }

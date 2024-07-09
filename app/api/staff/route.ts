@@ -1,14 +1,25 @@
 import {  NextRequest, NextResponse } from "next/server";
 import { prisma } from "@/app/lib/prisma";
-import bcrypt from 'bcrypt';
 
-export async function createStaff(req: NextRequest, res: NextResponse) {
+export async function POST(req: NextRequest): Promise<Response> {
     try {
-        const staff = await prisma.staff.create({
-            data: {
-                name: "スタッフ",
-                email: "john.doe@example.com",
-                password: await bcrypt.hash('password', 10),
+        if (!req.body) {
+            return NextResponse.json({
+                message: "リクエストデータがありません"
+            });
+        }
+        const body = await req.json();
+        const staff = await prisma.staff.upsert({
+            where: {
+                email: body.user.email
+            },
+            update: {
+                name: body.user.name,
+                email: body.user.email
+            },
+            create: {
+                name: body.user.name,
+                email: body.user.email
             }
         })
 
