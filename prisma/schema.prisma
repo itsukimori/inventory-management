@@ -18,44 +18,16 @@ model Staff {
   deletedAt DateTime? @map("deleted_at")
 
   company  Company?   @relation(fields: [companyId], references: [id])
+  product  Product[]
   order    Order[]
-  supplier Supplier[]
 
   @@map("staff")
 }
 
-model Supplier {
-  id          String    @id @default(uuid())
-  staffId     String    @map("staff_id")
-  warehouseId String    @map("warehouse_id")
-  createdAt   DateTime  @default(now()) @map("created_at")
-  updatedAt   DateTime? @updatedAt @map("updated_at")
-  deletedAt   DateTime? @map("deleted_at")
-
-  staff     Staff     @relation(fields: [staffId], references: [id])
-  warehouse Warehouse @relation(fields: [warehouseId], references: [id])
-
-  @@map("supplier")
-}
-
-model Warehouse {
-  id        String    @id @default(uuid())
-  name      String
-  address   String
-  createdAt DateTime  @default(now()) @map("created_at")
-  updatedAt DateTime? @updatedAt @map("updated_at")
-  deletedAt DateTime? @map("deleted_at")
-
-  supplier Supplier[]
-  product  Product[]
-
-  @@map("warehouse")
-}
-
 model Product {
   id          String    @id @default(uuid())
+  staffEmail  String?    @map("staff_email")
   category    String
-  warehouseId String    @map("warehouse_id")
   name        String
   price       Int
   stock       Int
@@ -63,8 +35,8 @@ model Product {
   updatedAt   DateTime? @updatedAt @map("updated_at")
   deletedAt   DateTime? @map("deleted_at")
 
-  warehouse    Warehouse      @relation(fields: [warehouseId], references: [id])
   orderDetails OrderDetails[]
+  staff        Staff?        @relation(fields: [staffEmail], references: [email])
 
   @@map("product")
 }

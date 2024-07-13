@@ -5,7 +5,7 @@ import { auth } from "@/auth";
 import MainLayout from "@/app/components/layouts/main-layout";
 import { UserInfo } from "@/app/components/ui/user-info/UserInfo";
 import { CardGradient } from "@/app/components/ui/card-gradient/CardGradient";
-import { Flex, rem, Paper, Text } from "@mantine/core";
+import { Flex, rem, Paper, Text, } from "@mantine/core";
 import { IconBuildingStore, IconBuildingWarehouse } from "@tabler/icons-react";
 import { TableScrollArea } from "@/app/components/ui/table-scroll-area/TableScrollArea";
 
@@ -51,14 +51,16 @@ export default async function Dashboard() {
                 justify="flex-start"
                 mt='lg'
             >
-                <CardGradient 
-                    title="製品を倉庫に供給"
-                    description="製品を倉庫に供給するには新規作成ボタンを押下してください。"
-                    icon={<IconBuildingWarehouse style={{ width: rem(28), height: rem(28) }} stroke={1.5} />}
-                    color1="pink"
-                    color2="orange"
-                    buttonText="新規作成"
-                />
+                <a href="/dashboard/create-product">
+                    <CardGradient 
+                        title="製品を倉庫に供給"
+                        description="製品を倉庫に供給するには新規作成ボタンを押下してください。"
+                        icon={<IconBuildingWarehouse style={{ width: rem(28), height: rem(28) }} stroke={1.5} />}
+                        color1="pink"
+                        color2="orange"
+                        buttonText="新規作成"
+                    />
+                </a>
                 <CardGradient 
                     title="加盟店舗に製品を提供"
                     description="加盟店舗に製品を提供するには店舗供給ボタンを押下してください。"
