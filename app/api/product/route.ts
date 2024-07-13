@@ -37,6 +37,7 @@ export async function POST(req: NextRequest) {
                     stock: body.stock,
                 }
             })
+
         } else {
             await prisma.product.create({
                 data: {
@@ -48,10 +49,9 @@ export async function POST(req: NextRequest) {
                 }
             });
         }
-        
-        return new NextResponse(JSON.stringify({ message: body }));
+
+        return new NextResponse(JSON.stringify({ status: 200, message: `${body.name}を追加しました` }));
     } catch (error) {
-        console.error('Error parsing JSON:', error);
         return new NextResponse('Invalid JSON', { status: 400 });
     }
 }
