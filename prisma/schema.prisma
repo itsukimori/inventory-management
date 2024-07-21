@@ -25,10 +25,9 @@ model Staff {
 }
 
 model Product {
-  id          String    @id @default(uuid())
   staffEmail  String?    @map("staff_email")
   category    String
-  name        String
+  name        String @id 
   price       Int
   stock       Int
   createdAt   DateTime  @default(now()) @map("created_at")
@@ -88,7 +87,7 @@ model Order {
 model OrderDetails {
   id              String    @id @default(uuid())
   orderId         String    @map("order_id")
-  productId       String    @map("product_id")
+  productName       String    @map("product_name")
   productQuantity Int
   productPrice    Int
   createdAt       DateTime  @default(now()) @map("created_at")
@@ -96,7 +95,7 @@ model OrderDetails {
   deletedAt       DateTime? @map("deleted_at")
 
   order   Order   @relation(fields: [orderId], references: [id])
-  product Product @relation(fields: [productId], references: [id])
+  product Product @relation(fields: [productName], references: [name])
 
   @@map("order_details")
 }

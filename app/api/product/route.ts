@@ -28,8 +28,18 @@ export async function POST(req: NextRequest) {
     try {
         const body = await req.json();
         if (session) {
-            await prisma.product.create({
-                data: {
+            await prisma.product.upsert({
+                where: {
+                    name: body.name,
+                },
+                update: {
+                    staffEmail: session.user?.email,
+                    name: body.name,
+                    category: body.category,
+                    price: body.price,
+                    stock: body.stock,
+                },
+                create: {
                     staffEmail: session.user?.email,
                     name: body.name,
                     category: body.category,
@@ -39,8 +49,18 @@ export async function POST(req: NextRequest) {
             })
 
         } else {
-            await prisma.product.create({
-                data: {
+            await prisma.product.upsert({
+                where: {
+                    name: body.name,
+                },
+                update: {
+                    staffEmail: decodedValue?.email,
+                    name: body.name,
+                    category: body.category,
+                    price: body.price,
+                    stock: body.stock,
+                },
+                create: {
                     staffEmail: decodedValue?.email,
                     name: body.name,
                     category: body.category,
