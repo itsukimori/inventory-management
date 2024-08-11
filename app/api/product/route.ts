@@ -75,3 +75,12 @@ export async function POST(req: NextRequest) {
         return new NextResponse('Invalid JSON', { status: 400 });
     }
 }
+
+export async function GET(req: NextRequest) {
+    try {
+        const products = await prisma.product.findMany();
+        return new NextResponse(JSON.stringify(products));
+    } catch (error) {
+        return new NextResponse('Invalid JSON', { status: 400 });
+    }
+}

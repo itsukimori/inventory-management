@@ -61,14 +61,16 @@ export default async function Dashboard() {
                         buttonText="新規作成"
                     />
                 </a>
-                <CardGradient 
-                    title="加盟店舗に製品を提供"
+                <a href="/dashboard/create-order">
+                    <CardGradient 
+                        title="加盟店舗に製品を提供"
                     description="加盟店舗に製品を提供するには店舗供給ボタンを押下してください。"
                     icon={<IconBuildingStore style={{ width: rem(28), height: rem(28) }} stroke={1.5} />}
                     color1="blue"
                     color2="green"
-                    buttonText="店舗提供"
-                />
+                        buttonText="店舗提供"
+                    />
+                </a>
             </Flex>
             <Paper withBorder shadow="xl" radius="sm" mt="xl">
                 <Text m="md">店舗提供履歴</Text>
