@@ -78,7 +78,13 @@ export async function POST(req: NextRequest) {
 
 export async function GET(req: NextRequest) {
     try {
-        const products = await prisma.product.findMany();
+        const products = await prisma.product.findMany({
+            where: {
+                stock: {
+                    gt: 0,
+                },
+            },
+        });
         return new NextResponse(JSON.stringify(products));
     } catch (error) {
         return new NextResponse('Invalid JSON', { status: 400 });

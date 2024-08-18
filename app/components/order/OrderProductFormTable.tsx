@@ -15,9 +15,9 @@ import {
   Paper,
   InputWrapper,
   Input,
-  keys
+  NumberInput,
 } from '@mantine/core';
-import classes from '@/app/mantine-css-modules/OrderProductTable.module.css';
+import classes from '@/app/mantine-css-modules/OrderProductFormTable.module.css';
 import { IconSelector, IconChevronDown, IconChevronUp, IconSearch } from '@tabler/icons-react';
 
 interface RowData {
@@ -89,7 +89,16 @@ function sortData(
   );
 }
 
-export function OrderProductTable() {
+export function OrderProductFormTable() {
+  const validate = () => {
+    const newErrors: any = {};
+    if (quantity > selection[0].stock) newErrors.quantity = '在庫数以下の数値を入力してください';
+    if (quantity <= 0) newErrors.quantity = '1以上の数値を入力してください';
+    if (quantity >= 101) newErrors.quantity = '100以下の数値を入力してください';
+    if (!quantity) newErrors.quantity = '数量は必須です';
+    if (!storeName) newErrors.storeName = '店舗名は必須です';
+    return newErrors;
+  };
   const [data, setData] = useState<RowData[]>([]);
   useEffect(() => {
       const handleGetProductData = async () => {
@@ -105,10 +114,14 @@ export function OrderProductTable() {
   const [sortedData, setSortedData] = useState(data);
   const [sortBy, setSortBy] = useState<keyof RowData | null>(null);
   const [reverseSortDirection, setReverseSortDirection] = useState(false);
-  const [selection, setSelection] = useState(['1']);
+  const [selection, setSelection] = useState<RowData[]>([]);
   const [selectedProductFlg, setSelectedProductFlg] = useState(true);
+  const [errors, setErrors] = useState<any>({});
 
-  const toggleRow = (id: string) => setSelection((current) => current[0] === id ? [] : [id]);
+  const [quantity, setQuantity] = useState(0);
+  const [storeName, setStoreName] = useState('');
+
+  const toggleRow = (id: RowData) => setSelection((current) => current[0] === id ? [] : [id]);
 
   const setSorting = (field: keyof RowData) => {
     const reversed = field === sortBy ? !reverseSortDirection : false;
@@ -126,13 +139,48 @@ export function OrderProductTable() {
   const rows = sortedData.map((row) => (
     <Table.Tr key={row.name}>
       <Table.Td>
-        <Checkbox checked={selection.includes(row.name)} onChange={() => toggleRow(row.name)} />
+        <Checkbox checked={selection.includes(row)} onChange={() => toggleRow(row)} />
       </Table.Td>
       <Table.Td>{row.name}</Table.Td>
       <Table.Td>{row.price}</Table.Td>
       <Table.Td>{row.stock}</Table.Td>
     </Table.Tr>
   ));
+
+  const handleSubmit = async (event: React.FormEvent) => {
+    event.preventDefault();
+    const validationErrors = validate();
+    if (Object.keys(validationErrors).length > 0) {
+      setErrors(validationErrors);
+      return;
+    }
+    try {
+      const response = await fetch('/api/order', {
+        method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+          name: selection[0].name,
+          quantity: quantity,
+          storeName: storeName,
+          price: quantity * selection[0].price,
+        }),
+      });
+      const resData = await response.json();
+      if (resData.status === 200) {
+        window.location.reload();
+      }
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  const handleSelectProduct = () => {
+    if (selection.length > 0) {
+      setSelectedProductFlg(false);
+    }
+  };
 
   return (
     <>
@@ -182,7 +230,7 @@ export function OrderProductTable() {
                     <Table.Tr>
                       <Table.Td colSpan={data.length > 0 ? Object.keys(data[0]).length + 1 : 4}>
                         <Text fw={500} ta="center">
-                          データが見つかりません
+                          データを取得しています
                         </Text>
                       </Table.Td>
                     </Table.Tr>
@@ -190,14 +238,33 @@ export function OrderProductTable() {
                 </Table.Tbody>
               </Table>
             </ScrollArea>
-            <Button onClick={() => setSelectedProductFlg(false)}>
+            <Button color="gray" mt="md" onClick={handleSelectProduct}>
               製品を選択
             </Button>
           </>
         ) : (
           <>
             <Paper withBorder shadow="xl" radius="md" p="md">
-              <Text>製品名：{selection}</Text>
+              <form onSubmit={handleSubmit}>
+                <Text>製品名：{selection[0].name}</Text>
+                <Text>単価：{selection[0].price}</Text>
+                <Text>在庫数：{selection[0].stock}</Text>
+                <br />
+                <InputWrapper label="数量" description="数量を入力してください" error={errors.quantity}>
+                  <NumberInput
+                    placeholder="100"
+                    onChange={(e) => setQuantity(Number(e))}
+                  />
+                </InputWrapper>
+                <InputWrapper label="店舗名" description="店舗名を入力してください" error={errors.storeName}>
+                  <Input
+                    placeholder="大塚商会"
+                    onChange={(e) => setStoreName(e.target.value)}
+                  />
+                </InputWrapper>
+                <Button color="gray" mt="md" type="submit">注文</Button>
+                <Button color="gray" mt="md" ml="md" onClick={() => setSelectedProductFlg(true)}>戻る</Button>
+              </form>
             </Paper>
           </>
         )

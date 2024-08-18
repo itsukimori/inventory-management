@@ -9,7 +9,6 @@ datasource db {
 
 model Staff {
   id        String    @id @default(uuid())
-  companyId String?   @map("company_id")
   name      String
   email     String    @unique
   password  String?
@@ -17,7 +16,6 @@ model Staff {
   updatedAt DateTime? @updatedAt @map("updated_at")
   deletedAt DateTime? @map("deleted_at")
 
-  company  Company?   @relation(fields: [companyId], references: [id])
   product  Product[]
   order    Order[]
 
@@ -27,89 +25,30 @@ model Staff {
 model Product {
   staffEmail  String?    @map("staff_email")
   category    String
-  name        String @id 
+  name        String @id
   price       Int
   stock       Int
   createdAt   DateTime  @default(now()) @map("created_at")
   updatedAt   DateTime? @updatedAt @map("updated_at")
   deletedAt   DateTime? @map("deleted_at")
 
-  orderDetails OrderDetails[]
   staff        Staff?        @relation(fields: [staffEmail], references: [email])
 
   @@map("product")
 }
 
-model Company {
-  id        String    @id @default(uuid())
-  name      String
-  createdAt DateTime  @default(now()) @map("created_at")
-  updatedAt DateTime? @updatedAt @map("updated_at")
-  deletedAt DateTime? @map("deleted_at")
-
-  staff        Staff[]
-  joiningStore JoiningStore[]
-
-  @@map("company")
-}
-
-model JoiningStore {
-  id        String    @id @default(uuid())
-  companyId String
-  name      String
-  address   String
-  createdAt DateTime  @default(now()) @map("created_at")
-  updatedAt DateTime? @updatedAt @map("updated_at")
-  deletedAt DateTime? @map("deleted_at")
-
-  company      Company        @relation(fields: [companyId], references: [id])
-  orderHistory OrderHistory[]
-
-  @@map("joining_store")
-}
-
 model Order {
   id             String    @id @default(uuid())
-  staffId        String    @map("staff_id")
-  joiningStoreId String    @map("joining_store_id")
-  orderDetailsId String    @map("order_details_id")
-  createdAt      DateTime  @default(now()) @map("created_at")
-  updatedAt      DateTime? @updatedAt @map("updated_at")
-  deletedAt      DateTime? @map("deleted_at")
-
-  staff        Staff          @relation(fields: [staffId], references: [id])
-  orderDetails OrderDetails[]
-  orderHistory OrderHistory[]
-
-  @@map("order")
-}
-
-model OrderDetails {
-  id              String    @id @default(uuid())
-  orderId         String    @map("order_id")
+  staffEmail        String    @map("staff_email")
+  storeName       String    @map("store_name")
   productName       String    @map("product_name")
   productQuantity Int
   productPrice    Int
-  createdAt       DateTime  @default(now()) @map("created_at")
-  updatedAt       DateTime? @updatedAt @map("updated_at")
-  deletedAt       DateTime? @map("deleted_at")
-
-  order   Order   @relation(fields: [orderId], references: [id])
-  product Product @relation(fields: [productName], references: [name])
-
-  @@map("order_details")
-}
-
-model OrderHistory {
-  id             String    @id @default(uuid())
-  joiningStoreId String    @map("joining_store_id")
-  orderId        String    @map("order_id")
   createdAt      DateTime  @default(now()) @map("created_at")
   updatedAt      DateTime? @updatedAt @map("updated_at")
   deletedAt      DateTime? @map("deleted_at")
 
-  joiningStore JoiningStore @relation(fields: [joiningStoreId], references: [id])
-  order        Order        @relation(fields: [orderId], references: [id])
+  staff        Staff          @relation(fields: [staffEmail], references: [email])
 
-  @@map("order_history")
+  @@map("order")
 }

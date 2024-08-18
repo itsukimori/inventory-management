@@ -13,7 +13,7 @@ export async function POST(req: NextRequest) {
 
     const guest = await prisma.staff.create({
         data: {
-            name: `ゲスト${guestCount + 1}`,
+            name: `ゲスト`,
             email: `guest${guestCount + 1}@example.com`,
             password: await bcrypt.hash('password', 10),
         },

@@ -93,7 +93,7 @@ export default function CreateProductForm() {
                         <Button color='gray' onClick={() => router.push('/dashboard')}>マイページに戻る</Button>
                     </Group>
                 </Dialog>
-             }
+            }
         </>
     )
 }

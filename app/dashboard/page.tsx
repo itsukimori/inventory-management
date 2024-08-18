@@ -63,11 +63,11 @@ export default async function Dashboard() {
                 </a>
                 <a href="/dashboard/create-order">
                     <CardGradient 
-                        title="加盟店舗に製品を提供"
-                    description="加盟店舗に製品を提供するには店舗供給ボタンを押下してください。"
-                    icon={<IconBuildingStore style={{ width: rem(28), height: rem(28) }} stroke={1.5} />}
-                    color1="blue"
-                    color2="green"
+                        title="店舗に製品を提供"
+                        description="店舗に製品を提供するには店舗供給ボタンを押下してください。"
+                        icon={<IconBuildingStore style={{ width: rem(28), height: rem(28) }} stroke={1.5} />}
+                        color1="blue"
+                        color2="green"
                         buttonText="店舗提供"
                     />
                 </a>
