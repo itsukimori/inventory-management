@@ -7,7 +7,7 @@ import { UserInfo } from "@/app/components/ui/user-info/UserInfo";
 import { CardGradient } from "@/app/components/ui/card-gradient/CardGradient";
 import { Flex, rem, Paper, Text, } from "@mantine/core";
 import { IconBuildingStore, IconBuildingWarehouse } from "@tabler/icons-react";
-import { TableScrollArea } from "@/app/components/ui/table-scroll-area/TableScrollArea";
+import { StoreProvisionHistoryTable } from "@/app/components/storeProvisionHistory/StoreProvisionHistoryTable";
 
 type DecodedValue = {
     name?: string;
@@ -74,7 +74,7 @@ export default async function Dashboard() {
             </Flex>
             <Paper withBorder shadow="xl" radius="sm" mt="xl">
                 <Text m="md">店舗提供履歴</Text>
-                <TableScrollArea />
+                <StoreProvisionHistoryTable />
             </Paper>
         </MainLayout>
     );
