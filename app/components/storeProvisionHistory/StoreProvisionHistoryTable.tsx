@@ -16,9 +16,9 @@ type Data = {
 export function StoreProvisionHistoryTable() {
     const formatDate = (dateString: string) => {
         const date = new Date(dateString);
-        const year = date.getFullYear().toString().slice(-2); // 年の下2桁を取得
-        const month = (date.getMonth() + 1).toString().padStart(2, '0'); // 月を2桁に
-        const day = date.getDate().toString().padStart(2, '0'); // 日を2桁に
+        const year = date.getFullYear().toString();
+        const month = (date.getMonth() + 1).toString().padStart(2, '0');
+        const day = date.getDate().toString().padStart(2, '0');
         return `${year}/${month}/${day}`;
     };
 
