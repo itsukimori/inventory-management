@@ -19,12 +19,7 @@ import React from 'react';
 
 const data = [
   { link: '/dashboard', label: 'マイページ', icon: IconUser },
-  { link: '/dashboard/sample', label: 'Billing', icon: IconReceipt2 },
-  { link: '', label: 'Security', icon: IconFingerprint },
-  { link: '', label: 'SSH Keys', icon: IconKey },
-  { link: '', label: 'Databases', icon: IconDatabaseImport },
-  { link: '', label: 'Authentication', icon: Icon2fa },
-  { link: '', label: 'Other Settings', icon: IconSettings },
+  { link: '/dashboard/inventory', label: '在庫一覧', icon: IconDatabaseImport },
 ];
 
 export function Navbar() {
@@ -71,10 +66,10 @@ export function Navbar() {
                     {links}
             </div>
             <div className={classes.footer}>
-                <a href="/" className={classes.link} onClick={(event) => event.preventDefault()}>
+                {/* <a href="/" className={classes.link} onClick={(event) => event.preventDefault()}>
                     <IconSwitchHorizontal className={classes.linkIcon} stroke={1.5} />
                     <span>Change account</span>
-                </a>
+                </a> */}
                 <a href="/" className={classes.link} onClick={handleSignOut}>
                     <IconLogout className={classes.linkIcon} stroke={1.5} />
                     <span>ログアウト</span>

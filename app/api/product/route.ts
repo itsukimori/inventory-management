@@ -84,6 +84,14 @@ export async function GET(req: NextRequest) {
                     gt: 0,
                 },
             },
+            select: {
+                name: true,
+                staffEmail: true,
+                category: true,
+                price: true,
+                stock: true,
+                createdAt: true,
+            }
         });
         return new NextResponse(JSON.stringify(products));
     } catch (error) {
