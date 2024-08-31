@@ -26,7 +26,9 @@ export async function POST(req: NextRequest) {
 
     const cookie = serialize('guest-session', token, {
         httpOnly: true,
-        //nginxがSSLできないからsecureをfalseにする
+        /**
+         * ubuntu nginxの都合でsecureをfalseにする
+         */
         // secure: process.env.NODE_ENV === 'production',
         maxAge: 60 * 60, // 1h
         path: '/',
