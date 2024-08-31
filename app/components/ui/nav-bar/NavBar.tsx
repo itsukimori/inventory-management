@@ -51,10 +51,9 @@ export function Navbar() {
     ));
 
     const handleSignOut = async () => {
-        const response = await fetch('/api/signout', {
+        await fetch('/api/signout', {
             method: 'POST',
         });
-        router.push('/');
     };
 
     return (

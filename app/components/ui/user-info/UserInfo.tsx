@@ -2,7 +2,6 @@
 import { Avatar, Text, Group, Paper } from '@mantine/core';
 import { IconAt, IconLogout } from '@tabler/icons-react';
 import classes from '@/app/mantine-css-modules/UserInfo.module.css';
-import { useRouter } from 'next/navigation';
 
 export function UserInfo(
     { name, email, imageUrl }:
@@ -12,12 +11,10 @@ export function UserInfo(
         imageUrl: string | null | undefined
     }
 ) {
-    const router = useRouter();
     const handleSignOut = async () => {
         await fetch('/api/signout', {
             method: 'POST',
         });
-        router.push('/');
     };
   return (
     <div>
