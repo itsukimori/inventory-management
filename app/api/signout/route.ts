@@ -5,7 +5,7 @@ import { GuestSignOut } from '@/auth';
 export async function POST(req: NextRequest) {
     try {
         await GuestSignOut();
-        await signOut();
+        await signOut({ redirect: false });
         return NextResponse.json({ message: 'Signed out' });
     } catch (error) {
         console.log(error);

@@ -14,12 +14,10 @@ export function UserInfo(
 ) {
     const router = useRouter();
     const handleSignOut = async () => {
-        const response = await fetch('/api/signout', {
+        await fetch('/api/signout', {
             method: 'POST',
-            });
-            if(response) {
-                router.push('/');
-            }
+        });
+        router.push('/');
     };
   return (
     <div>
