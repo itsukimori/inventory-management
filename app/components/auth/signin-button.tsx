@@ -18,11 +18,9 @@ export default function SignIn() {
         size="md"
         >
           <IconBrandGoogleFilled />
-          Google 
-          ,
+          、
           <IconBrandGithubFilled />
-          GitHub 
-          でログイン
+          　でログイン
       </Button>
     </form>
   )

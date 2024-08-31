@@ -1,50 +1,58 @@
 import SignIn from "@/app/components/auth/signin-button";
 import { auth } from "@/auth";
-import { redirect } from "next/navigation";
 import GuestLoginButton from "@/app/components/auth/guest-signin-button";
-import { getCookieValue } from "@/app/lib/session";
 import {
   Text,
   Paper,
-  Group,
+  Stack,
   Box,
   Center,
+  Button,
 } from '@mantine/core';
 
 export default async function Home() {
-  
-  const cookieName = 'guest-session';
-  const cookieValue = await getCookieValue(cookieName); 
+
   const session = await auth();
-  await (async () => {
+  if(session) {
     try {
-      const response = await fetch(`${process.env.BASE_URL}/api/staff`, {
+      await fetch(`${process.env.BASE_URL}/api/staff`, {
         method: 'POST',
         body: JSON.stringify(session)
-      })
-      if(response) {
-        return redirect("/dashboard");
-      }
+      });
     } catch (error) {
       console.error(error);
-    } 
-  })();
+    }
+  }
 
   return (
     <main>
       <Center style={{ height: '100vh' }}>
         <Paper shadow="xl" radius="md" p="xl">
-        <Text size="lg" fw={500}>
+        <Text size="lg" m={16} fw={500}>
           在庫管理システム
         </Text>
-        <Group>
-          <Box>
-            <GuestLoginButton />
-          </Box>
-          <Box>
-            <SignIn />
-          </Box>
-        </Group>
+        { session ? (
+          <>
+            <Button 
+              variant="default"
+              color="gray"
+              radius="md"
+              size="md">
+              <a href="/dashboard">管理画面へ進む</a>
+            </Button>
+          </>
+        ) : (
+          <>
+            <Stack>
+              <Box>
+                <GuestLoginButton />
+              </Box>
+              <Box>
+                <SignIn />
+              </Box>
+            </Stack>
+          </>
+        )}
         </Paper>
       </Center>
     </main>

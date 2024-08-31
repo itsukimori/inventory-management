@@ -8,7 +8,7 @@ export async function POST(req: NextRequest) {
          * ゲストの場合はCookieを削除することでログアウト状態にする
          */
         await cookieDelete();
-        await signOut({ redirect: false });
+        await signOut();
 
         return NextResponse.redirect('/');
     } catch (error) {
