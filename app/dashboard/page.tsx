@@ -15,37 +15,34 @@ type DecodedValue = {
 }
 
 export default async function Dashboard() {
-    const session = false;
+    
+    const cookieName = 'guest-session';
+    const cookieValue = await getCookieValue(cookieName);
+    const session = await auth();
 
-    // const cookieName = 'guest-session';
-    // const cookieValue = await getCookieValue(cookieName);
-    // const session = await auth();
+    let decodedValue: DecodedValue | null = null;
+    if(cookieValue) {
+        const decoded = jwt.verify(cookieValue, process.env.AUTH_SECRET!) as DecodedValue;
+        decodedValue = decoded;
+    }
 
-    // let decodedValue: DecodedValue | null = null;
-    // if(cookieValue) {
-    //     const decoded = jwt.verify(cookieValue, process.env.AUTH_SECRET!) as DecodedValue;
-    //     decodedValue = decoded;
-    // }
-
-    // ubuntu side 
-    // if(!session && !cookieValue) {
-    //     return redirect("/");
-    // }
+    //ubuntu side 
+    if(!session && !cookieValue) {
+        return redirect("/");
+    }
 
     return (
         <MainLayout>
             {
                 session ?
                 <>
-                    {/* <UserInfo name={session.user?.name} email={session.user?.email} imageUrl={session.user?.image} /> */}
+                    <UserInfo name={session.user?.name} email={session.user?.email} imageUrl={session.user?.image} />
                 </>
                 :
                 <>
                     <UserInfo 
-                        // name={decodedValue?.name}
-                        // email={decodedValue?.email}
-                        name={"ゲスト"}
-                        email={"guest@example.com"}
+                        name={decodedValue?.name}
+                        email={decodedValue?.email}
                         imageUrl={"https://raw.githubusercontent.com/mantinedev/mantine/master/.demo/avatars/avatar-2.png"}
                     />
                 </>

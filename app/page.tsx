@@ -27,9 +27,9 @@ export default async function Home() {
     } 
   })();
   
-  // if(session || cookieValue) {
-  //   return redirect("/dashboard");
-  // }
+  if(session || cookieValue) {
+    return redirect("/dashboard");
+  }
 
   return (
     <main>
