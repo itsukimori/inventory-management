@@ -25,6 +25,7 @@ export default async function Dashboard() {
         decodedValue = decoded;
     }
 
+    // ubuntu side 
     // if(!session && !cookieValue) {
     //     return redirect("/");
     // }
