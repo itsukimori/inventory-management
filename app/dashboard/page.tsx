@@ -26,9 +26,9 @@ export default async function Dashboard() {
     }
 
     // ubuntu side 
-    // if(!session && !cookieValue) {
-    //     return redirect("/");
-    // }
+    if(!session && !cookieValue) {
+        return redirect("/");
+    }
 
     return (
         <MainLayout>
