@@ -25,9 +25,9 @@ export default async function Dashboard() {
         decodedValue = decoded;
     }
 
-    if(!session && !cookieValue) {
-        return redirect("/");
-    }
+    // if(!session && !cookieValue) {
+    //     return redirect("/");
+    // }
 
     return (
         <MainLayout>
