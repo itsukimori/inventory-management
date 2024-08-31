@@ -7,12 +7,10 @@ export async function POST(req: NextRequest) {
         /**
          * ゲストの場合はCookieを削除することでログアウト状態にする
          */
-        const response = await cookieDelete();
-        
-        if(response) {
-            await signOut({ redirect: false });
-            return NextResponse.redirect('/');
-        }
+        await cookieDelete();
+        await signOut({ redirect: false });
+
+        return NextResponse.redirect('/');
     } catch (error) {
         console.log(error);
         return NextResponse.json({ message: 'Error signing out' }, { status: 500 });

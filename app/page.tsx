@@ -18,18 +18,17 @@ export default async function Home() {
   const session = await auth();
   await (async () => {
     try {
-      await fetch(`${process.env.BASE_URL}/api/staff`, {
+      const response = await fetch(`${process.env.BASE_URL}/api/staff`, {
         method: 'POST',
         body: JSON.stringify(session)
       })
+      if(response) {
+        return redirect("/dashboard");
+      }
     } catch (error) {
       console.error(error);
     } 
   })();
-  
-  if(session || cookieValue) {
-    return redirect("/dashboard");
-  }
 
   return (
     <main>
