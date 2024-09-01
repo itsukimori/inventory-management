@@ -109,8 +109,11 @@ export default async function Home() {
           <Text size="xs">
             - backend -
           </Text>
-          <Text mb={4} size="xs">
+          <Text  size="xs">
             Next.js, Prisma, MySQL, Docker, Auth.js, JWT
+          </Text>
+          <Text mb={8} size="xs">
+            Nginx, Ubuntu
           </Text>
             <Group>
               <Tooltip
@@ -138,10 +141,28 @@ export default async function Home() {
                 <Avatar src="icons/docker.svg" size="1.5rem" />
               </Tooltip>
               <Tooltip
+                label="Auth.js"
+                transitionProps={{ transition: 'skew-up', duration: 300 }}
+              >
+                <Avatar src="icons/auth-js.svg" size="1.5rem" />
+              </Tooltip>
+              <Tooltip
                 label="JWT"
                 transitionProps={{ transition: 'skew-up', duration: 300 }}
               >
                 <Avatar src="icons/jwt.svg" size="1.5rem" />
+              </Tooltip>
+              <Tooltip
+                label="Nginx"
+                transitionProps={{ transition: 'skew-up', duration: 300 }}
+              >
+                <Avatar src="icons/nginx.svg" size="1.5rem" />
+              </Tooltip>
+              <Tooltip
+                label="Ubuntu"
+                transitionProps={{ transition: 'skew-up', duration: 300 }}
+              >
+                <Avatar src="icons/ubuntu.svg" size="1.5rem" />
               </Tooltip>
           </Group>
         </Paper>
