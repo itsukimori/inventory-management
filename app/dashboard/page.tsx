@@ -5,8 +5,8 @@ import { auth } from "@/auth";
 import MainLayout from "@/app/components/layouts/main-layout";
 import { UserInfo } from "@/app/components/ui/user-info/UserInfo";
 import { CardGradient } from "@/app/components/ui/card-gradient/CardGradient";
-import { Flex, rem, Paper, Text, } from "@mantine/core";
-import { IconBuildingStore, IconBuildingWarehouse } from "@tabler/icons-react";
+import { Flex, rem, Paper, Text } from "@mantine/core";
+import { IconBuildingStore, IconBuildingWarehouse, IconDatabaseImport } from "@tabler/icons-react";
 import { StoreProvisionHistoryTable } from "@/app/components/storeProvisionHistory/StoreProvisionHistoryTable";
 
 type DecodedValue = {
@@ -50,7 +50,8 @@ export default async function Dashboard() {
             <Flex
                 direction={{ base: 'column', sm: 'row' }}
                 gap={{ base: 'sm', sm: 'lg' }}
-                justify="flex-start"
+                justify="wrap"
+                wrap="wrap"
                 mt='lg'
             >
                 <a href="/dashboard/create-product">
@@ -71,6 +72,16 @@ export default async function Dashboard() {
                         color1="blue"
                         color2="green"
                         buttonText="店舗提供"
+                    />
+                </a>
+                <a href="/dashboard/inventory">
+                    <CardGradient 
+                        title="在庫一覧を表示"
+                        description="在庫一覧を確認するには在庫一覧ボタンを押下してください。"
+                        icon={<IconDatabaseImport style={{ width: rem(28), height: rem(28) }} stroke={1.5} />}
+                        color1="#53ded6"
+                        color2="#148ECC"
+                        buttonText="在庫一覧"
                     />
                 </a>
             </Flex>
