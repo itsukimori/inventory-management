@@ -12,31 +12,36 @@ import { StoreProvisionHistoryTable } from "@/app/components/storeProvisionHisto
 type DecodedValue = {
     name?: string;
     email?: string;
+    imageUrl?: string;
 }
 
 export default async function Dashboard() {
     
-    const cookieName = 'guest-session';
-    const cookieValue = await getCookieValue(cookieName);
-    const session = await auth();
+    const guestCookieName = 'guest-session';
+    const guestCookieValue = await getCookieValue(guestCookieName);
+    const userCookieName = 'user-session';
+    const userCookieValue = await getCookieValue(userCookieName);
 
     let decodedValue: DecodedValue | null = null;
-    if(cookieValue) {
-        const decoded = jwt.verify(cookieValue, process.env.AUTH_SECRET!) as DecodedValue;
+    if(userCookieValue) {
+        const decoded = jwt.verify(userCookieValue, process.env.AUTH_SECRET!) as DecodedValue;
+        decodedValue = decoded;
+    } else if(guestCookieValue) {
+        const decoded = jwt.verify(guestCookieValue, process.env.AUTH_SECRET!) as DecodedValue;
         decodedValue = decoded;
     }
 
     //ubuntu side 
-    if(!session && !cookieValue) {
+    if(!userCookieValue && !guestCookieValue) {
         return redirect("/");
     }
 
     return (
         <MainLayout>
             {
-                session ?
+                userCookieValue ?
                 <>
-                    <UserInfo name={session.user?.name} email={session.user?.email} imageUrl={session.user?.image} />
+                    <UserInfo name={decodedValue?.name} email={decodedValue?.email} imageUrl={decodedValue?.imageUrl} />
                 </>
                 :
                 <>
