@@ -1,5 +1,3 @@
-import SignIn from "@/app/components/auth/signin-button";
-import { auth } from "@/auth";
 import GuestLoginButton from "@/app/components/auth/guest-signin-button";
 import {
   Text,
@@ -10,7 +8,8 @@ import {
   Button,
   Group,
   Avatar,
-  Tooltip
+  Tooltip,
+  Divider
 } from '@mantine/core';
 
 export default async function Home() {
@@ -34,11 +33,11 @@ export default async function Home() {
     <main>
       <Center style={{ height: '100vh' }}>
         <Paper shadow="xl" radius="md" p="xl">
-          <Box>
+          <Box mb={32}>
             <Text 
-              size="lg"
+              size="xl"
               m={16}
-              fw={500}
+              fw={700}
               style={{ display: 'flex', justifyContent: 'center' }}
             >
               在庫管理システム
@@ -77,9 +76,7 @@ export default async function Home() {
               </>
             )}
           </Box>
-          <Text size="sm" mt={32} fw={500}>
-            使用技術
-          </Text>
+          <Divider my="xs" label="使用技術" labelPosition="center" />
           <Text size="xs">
             - frontend -
           </Text>
