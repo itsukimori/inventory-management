@@ -66,6 +66,12 @@ import {
   ];
   
   export function HeaderMenu() {
+    const handleSignOut = async () => {
+      await fetch('/api/signout', {
+          method: 'POST',
+      });
+    };
+
     const [drawerOpened, { toggle: toggleDrawer, close: closeDrawer }] = useDisclosure(false);
     const [linksOpened, { toggle: toggleLinks }] = useDisclosure(false);
     const theme = useMantineTheme();
@@ -169,7 +175,9 @@ import {
   
             <Group visibleFrom="sm">
               {/* <Button variant="default">Log in</Button> */}
-              <Button color="gray">ログアウト</Button>
+              <a href="/">
+                <Button color="gray">ログアウト</Button>
+              </a>
             </Group>
   
             <Burger opened={drawerOpened} onClick={toggleDrawer} hiddenFrom="sm" />
@@ -237,7 +245,9 @@ import {
   
             <Group justify="center" grow pb="xl" px="md">
               {/* <Button variant="default">Log in</Button> */}
-              <Button color="gray">ログアウト</Button>
+              <a href="/">
+                <Button color="gray">ログアウト</Button>
+              </a>
             </Group>
           </ScrollArea>
         </Drawer>
