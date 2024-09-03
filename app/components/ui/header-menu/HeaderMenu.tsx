@@ -168,8 +168,8 @@ import {
             </Group>
   
             <Group visibleFrom="sm">
-              <Button variant="default">Log in</Button>
-              <Button color="gray">Sign up</Button>
+              {/* <Button variant="default">Log in</Button> */}
+              <Button color="gray">ログアウト</Button>
             </Group>
   
             <Burger opened={drawerOpened} onClick={toggleDrawer} hiddenFrom="sm" />
@@ -236,11 +236,12 @@ import {
             <Divider my="sm" />
   
             <Group justify="center" grow pb="xl" px="md">
-              <Button variant="default">Log in</Button>
-              <Button color="gray">Sign up</Button>
+              {/* <Button variant="default">Log in</Button> */}
+              <Button color="gray">ログアウト</Button>
             </Group>
           </ScrollArea>
         </Drawer>
+        <Divider my="sm" />
       </Box>
     );
   }

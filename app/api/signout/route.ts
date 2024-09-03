@@ -1,5 +1,4 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { signOut } from '@/auth';
 import { cookieDelete } from '@/auth';
 
 export async function POST(req: NextRequest) {
