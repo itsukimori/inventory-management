@@ -2,7 +2,6 @@
 import {
     Avatar,
     Checkbox,
-    Anchor,
     InputWrapper,
     Input,
     Image,
@@ -28,6 +27,7 @@ import {
     const [image, setImage] = useState('');
     const [name, setName] = useState('');
     const [errors, setErrors] = useState<any>({});
+    const [isDropdownOpen, setIsDropdownOpen] = useState(false);
 
     const validate = () => {
       const newErrors: any = {};
@@ -47,7 +47,6 @@ import {
       }
       setErrors({});
       try {
-        console.log(email, password, image, "テスト");
           const response = await fetch('/api/register', {
               method: 'POST',
               headers: {
@@ -74,6 +73,12 @@ import {
           console.error(error);
       }
     };
+
+    const handleImageSelect = (url: string) => {
+      setImage(url);
+      setIsDropdownOpen(false);
+    };
+
     return (
       <Container size={420} my={40}>
         <Title ta="center" className={classes.title}>
@@ -81,9 +86,9 @@ import {
         </Title>
         <Text c="dimmed" size="sm" ta="center" mt={5}>
           すでにアカウントをお持ちの方はこちら
-          <Anchor size="sm" component="button">
+          <a href="/login" style={{ color: 'blue', textDecoration: 'underline' }}>
             ログイン
-          </Anchor>
+          </a>
         </Text>
         <form onSubmit={handleSubmit}>
           <Paper withBorder shadow="md" p={30} mt={30} radius="md">
@@ -108,40 +113,57 @@ import {
                 onChange={(e) => setPassword(e.target.value)}
               />
             </InputWrapper>
-            <HoverCard width={360} position="bottom" radius="md" shadow="md" withinPortal>
+            <HoverCard 
+              width={360} 
+              position="bottom" 
+              radius="md" 
+              shadow="md" 
+              withinPortal
+              initiallyOpened={isDropdownOpen}
+            >
               <HoverCard.Target>
-                <Button color="gray" size="sm" variant="outline" style={{ marginBottom: '8px', marginTop: '8px' }}>アバター画像を選択</Button>
+                <Button 
+                  color="gray" 
+                  size="sm" 
+                  variant="outline" 
+                  style={{ marginBottom: '8px', marginTop: '8px' }}
+                  onClick={() => setIsDropdownOpen(!isDropdownOpen)}
+                >
+                  アバター画像を選択
+                </Button>
               </HoverCard.Target>
-              <HoverCard.Dropdown style={{ position: 'fixed', top: '50%', left: '50%', transform: 'translate(-50%, -50%)' }}>
-                <SimpleGrid cols={3} spacing="xs">
-                  {avaterImagesUrl.map((url, index) => (
-                    <Box key={index}>
-                    <Checkbox
-                      checked={image === url}
-                      onChange={(event) => {
-                        if (event.currentTarget.checked) {
-                          setImage(url);
-                        } else {
-                          setImage('');
-                        }
-                      }}
-                      label={`アバター ${index + 1}`}
-                    />
-                    <Avatar
-                      src={url}
-                      radius="xs"
-                      size={100}
-                      alt={`アバター ${index + 1}`}
-                      onClick={() => setImage(url)}
-                      style={{
-                        cursor: 'pointer',
-                        border: image === url ? '2px solid blue' : 'none',
-                      }}
-                    />
-                  </Box>
-                ))}
-                </SimpleGrid>
-              </HoverCard.Dropdown>
+              {isDropdownOpen && (
+                <HoverCard.Dropdown style={{ position: 'fixed', top: '50%', left: '50%', transform: 'translate(-50%, -50%)' }}>
+                  <SimpleGrid cols={3} spacing="xs">
+                    {avaterImagesUrl.map((url, index) => (
+                      <Box key={index}>
+                        <Checkbox
+                          checked={image === url}
+                          onChange={(event) => {
+                            if (event.currentTarget.checked) {
+                              handleImageSelect(url);
+                            } else {
+                              setImage('');
+                            }
+                          }}
+                          label={`アバター ${index + 1}`}
+                        />
+                        <Avatar
+                          src={url}
+                          radius="xs"
+                          size={100}
+                          alt={`アバター ${index + 1}`}
+                          onClick={() => handleImageSelect(url)}
+                          style={{
+                            cursor: 'pointer',
+                            border: image === url ? '2px solid blue' : 'none',
+                          }}
+                        />
+                      </Box>
+                    ))}
+                  </SimpleGrid>
+                </HoverCard.Dropdown>
+              )}
             </HoverCard>
             {image && (
               <Image src={image} radius="md" alt="アバター画像" h={100} w={100} />
