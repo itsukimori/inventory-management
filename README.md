@@ -27,7 +27,7 @@
 - Webサーバーの構築
 
 ## URL
-http://morinagaitsuki.duckdns.org/
+http://inventory-management.duckdns.org/
 
 ## 連絡先
 - Email: [itsukimorinaga@yahoo.co.jp]
