@@ -9,7 +9,7 @@ import {
   Group,
   Avatar,
   Tooltip,
-  Divider
+  Divider,
 } from '@mantine/core';
 
 export default async function Home() {
@@ -72,6 +72,34 @@ export default async function Home() {
                   //   <SignIn />
                   // </Box>
                   }
+                  <Box
+                    style={{ display: 'flex', justifyContent: 'center' }}
+                  >
+                        <Group>
+                          <a
+                            href="/login"
+                          >
+                            ログイン
+                          </a>
+                          <Divider orientation="vertical" />
+                          <a
+                            href="/register"
+                          >
+                            新規登録
+                          </a>
+                        </Group>
+                    {/* <Divider
+                      my="xs"
+                      label={
+                        <Anchor href="/register" target="_blank" inherit>
+                          新規登録
+                        </Anchor>
+                      }
+                    /> */}
+                    {/* <Button color="gray" variant="default" radius="md" size="md">
+                      <a href="/register">新規登録</a>
+                    </Button> */}
+                  </Box>
                 </Stack>
               </>
             )}

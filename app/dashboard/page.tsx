@@ -1,52 +1,25 @@
 import { redirect } from "next/navigation";
-import { getCookieValue } from "@/app/lib/session";
-import jwt from 'jsonwebtoken';
-import { auth } from "@/auth";
 import MainLayout from "@/app/components/layouts/main-layout";
 import { UserInfo } from "@/app/components/ui/user-info/UserInfo";
 import { CardGradient } from "@/app/components/ui/card-gradient/CardGradient";
 import { Flex, rem, Paper, Text } from "@mantine/core";
 import { IconBuildingStore, IconBuildingWarehouse, IconDatabaseImport } from "@tabler/icons-react";
 import { StoreProvisionHistoryTable } from "@/app/components/storeProvisionHistory/StoreProvisionHistoryTable";
-
-type DecodedValue = {
-    name?: string;
-    email?: string;
-}
+import { getAuthenticatedUser } from "@/app/lib/auth";
 
 export default async function Dashboard() {
-    
-    const cookieName = 'guest-session';
-    const cookieValue = await getCookieValue(cookieName);
-    const session = await auth();
-
-    let decodedValue: DecodedValue | null = null;
-    if(cookieValue) {
-        const decoded = jwt.verify(cookieValue, process.env.AUTH_SECRET!) as DecodedValue;
-        decodedValue = decoded;
-    }
-
-    //ubuntu side 
-    if(!session && !cookieValue) {
+    const decodedValue = await getAuthenticatedUser();
+    if(!decodedValue) {
         return redirect("/");
     }
 
     return (
         <MainLayout>
-            {
-                session ?
-                <>
-                    <UserInfo name={session.user?.name} email={session.user?.email} imageUrl={session.user?.image} />
-                </>
-                :
-                <>
-                    <UserInfo 
-                        name={decodedValue?.name}
-                        email={decodedValue?.email}
-                        imageUrl={"https://raw.githubusercontent.com/mantinedev/mantine/master/.demo/avatars/avatar-2.png"}
-                    />
-                </>
-            }
+            <UserInfo 
+                name={decodedValue.name ?? ""}
+                email={decodedValue.email ?? ""}
+                imageUrl={decodedValue.imageUrl ?? "https://raw.githubusercontent.com/mantinedev/mantine/master/.demo/avatars/avatar-2.png"}
+            />
             <Flex
                 direction={{ base: 'column', sm: 'row' }}
                 gap={{ base: 'sm', sm: 'lg' }}
